@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -13,11 +13,15 @@ WORKDIR /app
 
 COPY runpod-worker/requirements.txt /app/requirements.txt
 
-# Install CUDA-enabled PyTorch first, then the rest of the stack.
-RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cu124 \
-    torch==2.4.1 \
-    torchaudio==2.4.1 && \
-    pip install --no-cache-dir -r /app/requirements.txt
+# Install pip tooling and typing-extensions from PyPI first.
+RUN python -m pip install --no-cache-dir --upgrade pip && \
+    python -m pip install --no-cache-dir --index-url https://pypi.org/simple typing-extensions && \
+    python -m pip install --no-cache-dir \
+        --index-url https://download.pytorch.org/whl/cu124 \
+        --extra-index-url https://pypi.org/simple \
+        torch==2.4.1 \
+        torchaudio==2.4.1 && \
+    python -m pip install --no-cache-dir -r /app/requirements.txt
 
 COPY runpod-worker/handler.py /app/handler.py
 
