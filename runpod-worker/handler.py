@@ -13,8 +13,8 @@ except ModuleNotFoundError:  # pragma: no cover - runpod only exists in the work
     runpod = cast(Any, None)
 
 INPUT_KEY_FILE = "audio_input"
-DEFAULT_MODEL = "htdemucs"
-DEFAULT_SHIFTS = 1
+DEFAULT_MODEL = "htdemucs_ft"
+DEFAULT_SHIFTS = 4
 DEFAULT_OVERLAP = 0.25
 
 # Default Catbox User Hash
