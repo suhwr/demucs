@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 
-COPY requirements.txt /app/requirements.txt
+COPY runpod-worker/requirements.txt /app/requirements.txt
 
 # Install CUDA-enabled PyTorch first, then the rest of the stack.
 RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cu124 \
@@ -19,6 +19,6 @@ RUN pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cu12
     torchaudio==2.4.1 && \
     pip install --no-cache-dir -r /app/requirements.txt
 
-COPY handler.py /app/handler.py
+COPY runpod-worker/handler.py /app/handler.py
 
 CMD ["python", "-u", "/app/handler.py"]
